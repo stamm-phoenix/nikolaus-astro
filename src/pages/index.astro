@@ -6,9 +6,21 @@ import Registration from "../components/Registration.astro";
 ---
 
 <Layout>
-  <div class="container">
-    <Welcome />
-    <FAQ />
-    <Registration />
+  <div class="container p-2">
+    <div class="row pb-2">
+      <div class="col">
+        <Welcome />
+      </div>
+    </div>
+    <div class="row pb-2">
+      <div class="col">
+        <FAQ />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <Registration />
+      </div>
+    </div>
   </div>
 </Layout>
