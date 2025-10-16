@@ -1,5 +1,6 @@
 ---
-import "../styles/global.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js?url";
 ---
 
 <!doctype html>
@@ -13,7 +14,7 @@ import "../styles/global.css";
   </head>
   <body>
     <slot />
-    <script type="module" src="/src/scripts/global.js" />
+    <script src={bootstrap}></script>
   </body>
 </html>
 
