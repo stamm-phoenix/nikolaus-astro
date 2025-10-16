@@ -2,17 +2,13 @@
 import Layout from "../layouts/Layout.astro";
 import Welcome from "../components/Welcome.astro";
 import FAQ from "../components/FAQ.astro";
+import Registration from "../components/Registration.astro";
 ---
 
 <Layout>
   <div class="container">
-    <div class="row">
-      <div class="col">
-        <Welcome />
-      </div>
-      <div class="col">
-        <FAQ></FAQ>
-      </div>
-    </div>
+    <Welcome />
+    <FAQ />
+    <Registration />
   </div>
 </Layout>
