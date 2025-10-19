@@ -1,0 +1,9 @@
+<Project>
+  <ItemGroup>
+    <None Include="**" />
+    <None Remove="*.slnx" />
+    <None Remove=".astro/**" />
+    <None Remove="dist/**" />
+    <None Remove="node_modules/**" />
+  </ItemGroup>
+</Project>
