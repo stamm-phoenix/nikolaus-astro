@@ -1,99 +1,175 @@
 ---
-// /src/components/FAQ.astro
-// Bootstrap 5 accordion component for a list of FAQs.
-//
-// Props:
-//   faqs: Array<{ id?: string, question: string, answer: string, open?: boolean }>
-interface FAQItem {
+type QAItem = { question: string; answer: string };
+type Category = { title: string; items: QAItem[] };
+
+const defaultCategories: Category[] = [
+  {
+    title: "Anmeldung & Termin",
+    items: [
+      {
+        question: "Wie kann ich mich für den Nikolausdienst anmelden?",
+        answer: `Die Anmeldung erfolgt online über <strong>das Formular unten</strong>.
+        Dort können Sie einen Zeitintervall am <strong>5. oder 6. Dezember</strong> auswählen.
+        Uhrzeiten, die in der Liste nicht angezeigt werden, sind <strong>nicht mehr verfügbar</strong>.`
+      },
+      {
+        question: "Wann ist mein Termin gültig?",
+        answer: `Der Termin gilt erst, wenn Sie den <strong>Bestätigungslink</strong> in der E-Mail anklicken,
+        die an die angegebene Adresse gesendet wurde. Prüfen Sie ggf. den <strong>Spam-Ordner</strong>.`
+      },
+      {
+        question: "Wie kann ich meinen Termin ändern oder absagen?",
+        answer: `Eine <strong>Absage</strong> ist über den Link in der Bestätigungs-E-Mail möglich.
+        Wenn Sie das Datum oder die Uhrzeit ändern möchten, melden Sie sich bitte direkt:
+        <a href="mailto:kontakt@stamm-phoenix.de">kontakt@stamm-phoenix.de</a> oder WhatsApp an
+        <strong>Nico Welles (+49&nbsp;176&nbsp;34548743)</strong>.`
+      }
+    ]
+  },
+  {
+    title: "Ablauf & Team",
+    items: [
+      {
+        question: "Wer kommt zu Besuch?",
+        answer: `In der Regel ein Team aus <strong>Nikolaus und Krampus</strong>.
+        Wenn Sie <strong>ohne Krampus</strong> möchten, geben Sie das bei der Anmeldung an – dann bleibt er draußen.
+        Manchmal begleitet auch ein <strong>Engerl</strong> das Team.`
+      },
+      {
+        question: "Wann kommt der Nikolaus und wie lange dauert der Besuch?",
+        answer: `Wir bemühen uns um <strong>Pünktlichkeit</strong>, es kann aber zu
+        <strong>Verspätungen von bis zu 30&nbsp;Minuten</strong> nach der ausgemachten Uhrzeit kommen. Ein Besuch dauert
+        <strong>maximal 30&nbsp;Minuten</strong>, weil wir dann zum nächsten Termin weiter müssen.`
+      },
+      {
+        question: "Welche Kontaktdaten/Adresshinweise soll ich angeben?",
+        answer: `Bitte eine <strong>aktuelle Handynummer</strong> angeben. Falls die Adresse schwer zu finden ist,
+        nutzen Sie das Bemerkungsfeld für eine <strong>Wegbeschreibung</strong>.`
+      }
+    ]
+  },
+  {
+    title: "Zettel fürs Goldene Buch",
+    items: [
+      {
+        question: "Wozu braucht der Nikolaus Zettel für jedes Kind?",
+        answer: `Der Nikolaus liest aus seinem <strong>Goldenen Buch</strong> vor und nutzt Ihre Stichpunkte.
+        Die <strong>Fahrer*in</strong> holt die Zettel <strong>vor dem Besuch draußen</strong> ab.`
+      },
+      {
+        question: "Wie sollen die Kinder-Zettel aussehen und was soll draufstehen?",
+        answer: `<ul>
+          <li><strong>Format:</strong> A4, <strong>ein Blatt pro Kind</strong></li>
+          <li><strong>Schrift:</strong> groß &amp; gut lesbar (gedruckt/Druckbuchstaben; <strong>keine Fließtexte/Gedichte</strong>)</li>
+          <li><strong>Stichpunkte:</strong> Name, Alter, Erkennungsmerkmale; Vorbereitung (Gedicht/Lied/Bild);
+              wofür loben; was kann es besonders gut; was künftig besser machen.</li>
+        </ul>
+        <p class="mb-0"><em>Hinweis:</em> Bitte nur kleine, konstruktive Punkte (z.&nbsp;B. Zähne putzen, im Haushalt helfen).</p>`
+      },
+      {
+        question: "Wo gebe ich die Zettel ab?",
+        answer: `Bitte <strong>nicht</strong> über das Online-Formular oder per E-Mail einsenden.
+        Legen Sie die Zettel am <strong>Besuchstag draußen</strong> bereit; die Fahrer*in sammelt sie ein, bevor der Nikolaus hereinkommt.`
+      }
+    ]
+  },
+  {
+    title: "Geschenke",
+    items: [
+      {
+        question: "Kann der Nikolaus Geschenke überreichen?",
+        answer: `Ja. Legen Sie die Geschenke <strong>vor dem Termin draußen</strong> bereit.
+        Die Fahrer*in nimmt sie entgegen; Nikolaus/Krampus steckt sie in den Sack.`
+      },
+      {
+        question: "Was muss ich bei den Geschenken beachten?",
+        answer: `<ul>
+          <li>Jedes Geschenk <strong>deutlich mit dem Namen des Kindes</strong> beschriften.</li>
+          <li><strong>Keine offenen Verpackungen</strong> (besser Säckchen mit Kordel statt offene Tüten).</li>
+          <li>Namensschildchen <strong>fest</strong> befestigen, damit es im Sack nicht abgeht.</li>
+        </ul>`
+      }
+    ]
+  },
+  {
+    title: "Spenden & Kontakt",
+    items: [
+      {
+        question: "Kostet der Besuch etwas? Wie kann ich spenden?",
+        answer: `Der Nikolausdienst ist <strong>auf Spendenbasis</strong>. Wir haben aber einige Ausgaben (Kostüme, Schminke, Fahrtkosten) und freuen uns über jede Spende.
+        Wenn Sie spenden möchten, legen Sie einfach einen <strong>Bargeld-Umschlag</strong> zu Zetteln/Geschenken; die Fahrer*in nimmt ihn mit.
+        <strong>Überweisungen sind derzeit leider nicht möglich.</strong>`
+      },
+      {
+        question: "An wen kann ich mich bei Fragen wenden?",
+        answer: `E-Mail an <a href="mailto:kontakt@stamm-phoenix.de">kontakt@stamm-phoenix.de</a> oder WhatsApp an <strong>Nico Welles (+49&nbsp;176&nbsp;34548743)</strong><br/>`
+      }
+    ]
+  }
+];
+
+interface Props {
   id?: string;
-  question: string;
-  answer: string;
-  open?: boolean;
+  categories?: Category[];
+  defaultOpen?: { categoryIndex: number; itemIndex: number } | null;
 }
 
-const { faqs = [{
-  question: "What is this?",
-  answer: "This is a FAQ component. Please provide your own questions and answers as props.",
-  open: true,
-}] as FAQItem[] } = Astro.props;
+const {
+  id = "nikolaus-faq",
+  categories = defaultCategories,
+  defaultOpen = false, //{ categoryIndex: 0, itemIndex: 0 }
+} = Astro.props as Props;
+
+const isOpen = (c: number, i: number) =>
+  defaultOpen && c === defaultOpen.categoryIndex && i === defaultOpen.itemIndex;
+
+const headingId = (c: number, i: number) => `${id}-heading-${c}-${i}`;
+const collapseId = (c: number, i: number) => `${id}-collapse-${c}-${i}`;
+const categoryAccordionId = (c: number) => `${id}-accordion-${c}`;
 ---
 
-
-
-<div class="accordion" id="accordionExample">
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-        Accordion Item #1
-      </button>
-    </h2>
-    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        <strong>This is the first item’s accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It’s also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-      </div>
-    </div>
+<!-- One Bootstrap card containing all categories -->
+<div class="card">
+  <div class="card-header">
+    <h2 class="mb-0">Fragen und Antworten</h2>
   </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-        Accordion Item #2
-      </button>
-    </h2>
-    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        <strong>This is the second item’s accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It’s also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+  <div class="card-body p-0">
+    {categories.map((cat, cIdx) => (
+      <div key={cIdx}>
+        <h3 class="m-3">{cat.title}</h3>
+        <div class="accordion accordion-flush" id={categoryAccordionId(cIdx)}>
+          {cat.items.map((qa, iIdx) => {
+            const open = isOpen(cIdx, iIdx);
+            return (
+              <div class="accordion-item" key={iIdx}>
+                <h2 class="accordion-header" id={headingId(cIdx, iIdx)}>
+                  <button
+                    class={`accordion-button ${open ? "" : "collapsed"}`}
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target={`#${collapseId(cIdx, iIdx)}`}
+                    aria-expanded={open ? "true" : "false"}
+                    aria-controls={collapseId(cIdx, iIdx)}
+                  >
+                    {qa.question}
+                  </button>
+                </h2>
+                <div
+                  id={collapseId(cIdx, iIdx)}
+                  class={`accordion-collapse collapse ${open ? "show" : ""}`}
+                  aria-labelledby={headingId(cIdx, iIdx)}
+                  data-bs-parent={`#${categoryAccordionId(cIdx)}`}
+                >
+                  <div class="accordion-body" set:html={qa.answer}></div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        {cIdx < categories.length - 1 && (
+          <hr class="my-2 opacity-25" />
+        )}
       </div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-        Accordion Item #3
-      </button>
-    </h2>
-    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        <strong>This is the third item’s accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It’s also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-      </div>
-    </div>
+    ))}
   </div>
 </div>
-
-
-
-<!--
-<div class="accordion" id={accordionId}>
-  {faqs.map((faq, i) => {
-    const itemId = faq.id ?? `${accordionId}-item-${i}`;
-    const headerId = `${itemId}-header`;
-    const collapseId = `${itemId}-collapse`;
-    return (
-      <div class="accordion-item" key={itemId}>
-        <h2 class="accordion-header" id={headerId}>
-          <button
-            class={`accordion-button ${faq.open ? '' : 'collapsed'}`}
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target={`#${collapseId}`}
-            aria-expanded={faq.open ? 'true' : 'false'}
-            aria-controls={collapseId}
-          >
-            {faq.question}
-          </button>
-        </h2>
-
-        <div
-          id={collapseId}
-          class={`accordion-collapse collapse ${faq.open ? 'show' : ''}`}
-          aria-labelledby={headerId}
-          data-bs-parent={`#${accordionId}`}
-        >
-          <div class="accordion-body">
-            {/* If answers are plain text, pass them normally. If they contain HTML, pass HTML string and it'll be rendered. */}
-            <div set:html={faq.answer} />
-          </div>
-        </div>
-      </div>
-    );
-  })}
-</div> -->
