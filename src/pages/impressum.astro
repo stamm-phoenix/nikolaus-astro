@@ -1,0 +1,81 @@
+﻿---
+import Layout from "../layouts/Layout.astro";
+import Welcome from "../components/Welcome.astro";
+import { Image } from 'astro:assets';
+import dpsg from '../assets/dpsg.png';
+---
+
+<Layout>
+  <div class="container p-2">
+    <div class="row pb-2">
+      <div class="col">
+        <Welcome />
+        <ul class="nav justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link" href="/nikolaus-astro">Zurück zur Hauptseite</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row pb-2">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <h2>Impressum</h2>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Veröffentlicher</h3>
+            <p>Förderverein Stamm Phoenix Feldkirchen-Westerham e.V.</p>
+            <h3 class="card-title">Vorstand</h3>
+            <div class="row mb-3">
+              <div class="col">
+                Simon Lamminger
+                <br>
+                +49 175 7539860
+                <br>
+                Ölbergring 10B
+                <br>
+                83620 Feldkirchen-Westerham
+              </div>
+              <hr class="mt-2 mb-2 d-md-none">
+              <div class="col">
+                Johannes Schmalstieg
+                <br>
+                +49 177 2687874
+                <br>
+                Spitzingstrasse 18
+                <br>
+                83620 Feldkirchen-Westerham
+              </div>
+            </div>
+            <h3 class="card-title">Verfasser</h3>
+            <p>Design und Layout: Nico Welles<br/>Inhalte (soweit Autor nicht explizit angegeben): Nico Welles, Hugo Berendi, Kasper Martens</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg">
+                Die Deutsche Pfadfinderschaft Sankt Georg (DPSG) ist als
+                anerkannter Träger freier Jugendhilfe Mitglied im Bayerischen Jugendring (BJR)
+                und als Verband katholischer Pfadfinderinnen und Pfadfinder
+                Mitglied im Bund der Deutschen Katholischen Jugend (BDKJ)
+                und der Internationalen Katholischen Konferenz des Pfadfindertums (IKKP).
+                Die DPSG ist Mitglied im Ring deutscher Pfadfinderverbände (RdP)
+                und von der World Organisation of the Scout Movement (WOSM)
+                als Mitgliedsverband der Weltpfadfinderbewegung offiziell anerkannt.
+              </div>
+              <div class="col-lg-auto d-flex align-items-center justify-content-center">
+                <Image src={dpsg} alt="Logo des Deutschen Pfadfinder*innenschaft Sankt Georg" height="100" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
