@@ -3,11 +3,10 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://stamm-phoenix.github.io",
-  base: "/nikolaus-astro",
+  site: "https://nikolaus.stamm-phoenix.de",
   vite: {
     css: {
-      preprocessorOptions: {}
-    }
-  }
+      preprocessorOptions: {},
+    },
+  },
 });
