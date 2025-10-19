@@ -1,0 +1,34 @@
+﻿[
+  {
+    "tag": "input",
+    "required": true,
+    "label": "Anzahl Kinder",
+    "placeholder": "Voraussichtliche Anzahl der Kinder angeben",
+    "type": "number"
+  },
+  {
+    "tag": "textarea",
+    "required": true,
+    "label": "Genaue Adresse",
+    "placeholder": "Genaue Adresse, ggf. Wegbeschreibung und Beschreibung der Wohnungstür angeben",
+    "type": "text"
+  },
+  {
+    "tag": "textarea",
+    "required": true,
+    "label": "Versteck für Geschenke, Zettel, Spende",
+    "placeholder": "Ort des Verstecks der Geschenke, Zettel für das Goldene Buch und Spende angeben",
+    "type": "text"
+  },
+  {
+    "tag": "select",
+    "required": true,
+    "label": "Krampus darf mit reinkommen",
+    "options": ["Ja", "Nein"]
+  },
+  {
+    "tag": "textarea",
+    "label": "Sonstige Bemerkungen",
+    "placeholder": ""
+  }
+]
