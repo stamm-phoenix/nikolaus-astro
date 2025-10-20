@@ -125,7 +125,7 @@ const isOpen = (c: number, i: number) =>
 
 const headingId = (c: number, i: number) => `${id}-heading-${c}-${i}`;
 const collapseId = (c: number, i: number) => `${id}-collapse-${c}-${i}`;
-const categoryAccordionId = (c: number) => `${id}-accordion-${c}`;
+const globalAccordionId = `${id}-global-accordion`;
 ---
 
 <!-- One Bootstrap card containing all categories -->
@@ -134,14 +134,15 @@ const categoryAccordionId = (c: number) => `${id}-accordion-${c}`;
     <h2>Fragen und Antworten</h2>
   </div>
   <div class="card-body p-0">
-    {categories.map((cat, cIdx) => (
-      <div key={cIdx}>
-        <h3 class="m-3">{cat.title}</h3>
-        <div class="accordion accordion-flush" id={categoryAccordionId(cIdx)}>
+    <div id={globalAccordionId} class="accordion accordion-flush">
+      {categories.map((cat, cIdx) => (
+        <div key={cIdx}>
+          <h3 class="m-3">{cat.title}</h3>
+
           {cat.items.map((qa, iIdx) => {
             const open = isOpen(cIdx, iIdx);
             return (
-              <div class="accordion-item" key={iIdx}>
+              <div class="accordion-item border-0 rounded-0" key={iIdx}>
                 <h2 class="accordion-header" id={headingId(cIdx, iIdx)}>
                   <button
                     class={`accordion-button ${open ? "" : "collapsed"}`}
@@ -158,18 +159,18 @@ const categoryAccordionId = (c: number) => `${id}-accordion-${c}`;
                   id={collapseId(cIdx, iIdx)}
                   class={`accordion-collapse collapse ${open ? "show" : ""}`}
                   aria-labelledby={headingId(cIdx, iIdx)}
-                  data-bs-parent={`#${categoryAccordionId(cIdx)}`}
+                  data-bs-parent={`#${globalAccordionId}`}
                 >
                   <div class="accordion-body" set:html={qa.answer}></div>
                 </div>
               </div>
             );
           })}
+          {cIdx < categories.length - 1 && (
+            <hr class="my-2 opacity-25" />
+          )}
         </div>
-        {cIdx < categories.length - 1 && (
-          <hr class="my-2 opacity-25" />
-        )}
-      </div>
-    ))}
+      ))}
+    </div>
   </div>
 </div>
