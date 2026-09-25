@@ -1,0 +1,70 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import phoenix from "../assets/phoenixlaus.png";
+
+// The Nikolausdienst moved to the website of the Stamm
+const TARGET_URL = "https://stamm-phoenix.de/nikolaus";
+const REDIRECT_SECONDS = 5;
+---
+
+<Layout>
+  <Fragment slot="head">
+    <meta http-equiv="refresh" content={`${REDIRECT_SECONDS};url=${TARGET_URL}`} />
+    <link rel="canonical" href={TARGET_URL} />
+    <meta name="robots" content="noindex" />
+  </Fragment>
+
+  <main class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <Image
+          src={phoenix}
+          alt=""
+          aria-hidden="true"
+          height={180}
+          class="mx-auto d-block mb-4"
+        />
+        <h1 class="display-6 mb-3">Der Nikolausdienst ist umgezogen!</h1>
+        <p class="lead">
+          Die Anmeldung und alle Informationen zum Nikolausdienst des DPSG Stamm Phoenix finden Sie ab
+          sofort auf der Website unseres Stammes.
+        </p>
+        <p class="text-muted" aria-live="polite">
+          Sie werden in <strong id="countdown">{REDIRECT_SECONDS}</strong> Sekunden automatisch
+          weitergeleitet.
+        </p>
+        <a href={TARGET_URL} class="btn btn-danger btn-lg mt-2">Zur neuen Nikolaus-Seite</a>
+        <p class="small text-muted mt-4">
+          Falls die Weiterleitung nicht funktioniert, öffnen Sie bitte
+          <a href={TARGET_URL}>stamm-phoenix.de/nikolaus</a> oder schreiben Sie uns an
+          <a href="mailto:kontakt@stamm-phoenix.de">kontakt@stamm-phoenix.de</a>.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="text-center pb-4">
+    <p class="small text-muted mb-1">
+      <a class="link-secondary" href="/impressum">Impressum</a>
+    </p>
+    <p class="small text-muted">
+      © {new Date().getFullYear()} Deutsche Pfadfinderschaft Sankt Georg 13/19/12 Stamm Phoenix
+      Feldkirchen-Westerham
+    </p>
+  </footer>
+</Layout>
+
+<script define:vars={{ TARGET_URL, REDIRECT_SECONDS }}>
+  // Visible countdown; the meta refresh above redirects even without JavaScript
+  let remaining = REDIRECT_SECONDS;
+  const countdown = document.getElementById("countdown");
+  const timer = setInterval(() => {
+    remaining -= 1;
+    if (countdown) countdown.textContent = String(Math.max(remaining, 0));
+    if (remaining <= 0) {
+      clearInterval(timer);
+      window.location.replace(TARGET_URL);
+    }
+  }, 1000);
+</script>
